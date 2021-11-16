@@ -1,23 +1,27 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+// import ScannerComponent from './components/ScannerComponent';
+import Aloha from "./components/aloha";
+import ScannerComponent from "./components/ScannerComponent";
+
+const getBarcode = (barcode, err) => {
+  console.log('handleBarcode', barcode, err);
+  
+  if (err) {
+    return;
+  }
+  // setBarcode(barcode.text);
+  // history.goBack();
+};
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      {/* <Aloha started={false}  showButtons={true} /> */}
+      <ScannerComponent
+        started={true}
+        onResult={getBarcode}
+        showButtons={true}
+      />
     </div>
   );
 }
