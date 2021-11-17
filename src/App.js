@@ -1,6 +1,4 @@
 import "./App.css";
-// import ScannerComponent from './components/ScannerComponent';
-import Aloha from "./components/aloha";
 import ScannerComponent from "./components/ScannerComponent";
 
 const getBarcode = (barcode, err) => {

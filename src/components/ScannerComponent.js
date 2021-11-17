@@ -18,34 +18,20 @@ export default function ScannerComponent(props) {
   );
   const [isRunning, setIsRunning] = React.useState(false);
   const [isLoading, setLoading] = React.useState(true);
-  const [source, setSource] = React.useState(null);
-  const [devices, setDevices] = React.useState([]);
-  const [scanResult, setScanResult] = React.useState('');
-  const [codeReader, setCodeReader] = React.useState(
+  const [source] = React.useState(null);
+  // const [devices, setDevices] = React.useState([]);
+  const [, setScanResult] = React.useState('');
+  const [codeReader] = React.useState(
     new BrowserMultiFormatReader()
   );
 
-  const [formats, setFormats] = React.useState([
+  const [formats] = React.useState([
     BarcodeFormat.EAN_13,
-    // BarcodeFormat.EAN_8,
-    // BarcodeFormat.QR_CODE,
-    // BarcodeFormat.DATA_MATRIX,
-    // BarcodeFormat.CODE_39,
-    // BarcodeFormat.CODE_128,
   ]);
-  const [hints, setHints] = React.useState(new Map());
+  const [hints] = React.useState(new Map());
 
   React.useEffect(() => {
     hints.set(DecodeHintType.POSSIBLE_FORMATS, formats);
-    // hints.set(DecodeHintType.PURE_BARCODE, formats);
-    // codeReader.getVideoInputDevices().then(videoInputDevices => {
-    //   setSource(videoInputDevices[0].deviceId);
-    //   if (videoInputDevices.length >= 1) {
-    //     videoInputDevices.forEach(element => {
-    //       setDevices([...devices, element]);
-    //     });
-    //   }
-    // });
   }, []);
 
   React.useEffect(() => {
