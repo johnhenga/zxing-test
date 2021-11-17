@@ -1,15 +1,17 @@
-import React from 'react';
+import React from "react";
 
 // import { Button, Select, MenuItem } from "@material-ui/core";
-import { Button } from '@material-ui/core';
-import './Barcode.css';
+import { Button, MenuItem, Select } from "@material-ui/core";
+import "./Barcode.css";
 
 import {
   BrowserMultiFormatReader,
-  // BarcodeFormat,
-  // DecodeHintType,
+  BarcodeFormat,
+  DecodeHintType,
   NotFoundException,
-} from '@zxing/library';
+} from "@zxing/library";
+
+
 
 export default function ScannerComponent(props) {
   // const [loading, setLoading] = React.useState(props.loading || false);
@@ -18,21 +20,19 @@ export default function ScannerComponent(props) {
   );
   const [, setIsRunning] = React.useState(false);
   const [isLoading, setLoading] = React.useState(true);
-  const [source] = React.useState(null);
-  // const [devices, setDevices] = React.useState([]);
-  const [, setScanResult] = React.useState('');
-  const [codeReader] = React.useState(
-    new BrowserMultiFormatReader()
-  );
+  const [source, setSource] = React.useState(null);
+  const [devices, setDevices] = React.useState([]);
+  const [, setScanResult] = React.useState("");
+  const [codeReader] = React.useState(new BrowserMultiFormatReader());
 
-  // const [formats] = React.useState([
-  //   BarcodeFormat.EAN_13,
-  // ]);
-  // const [hints] = React.useState(new Map());
+  const [formats] = React.useState([
+    BarcodeFormat.EAN_13,
+  ]);
+  const [hints] = React.useState(new Map());
 
-  // React.useEffect(() => {
-  //   // hints.set(DecodeHintType.POSSIBLE_FORMATS, formats);
-  // }, []);
+  React.useEffect(() => {
+    hints.set(DecodeHintType.POSSIBLE_FORMATS, formats);
+  }, []);
 
   React.useEffect(() => {
     // setLoading(props.loading);
@@ -54,10 +54,15 @@ export default function ScannerComponent(props) {
 
   const captureStart = (callback = () => {}, stopOnCapture = true) => {
     setIsRunning(true);
-    codeReader.decodeFromVideoDevice(source, 'video', (result, err) => {
+    codeReader.listVideoInputDevices().then((videoInputDevices) => {
+      console.log("setDevices", videoInputDevices);
+      setDevices(videoInputDevices);
+    });
+
+    codeReader.decodeFromVideoDevice(source, "video", (result, err) => {
       setLoading(false);
       if (result) {
-        console.debug('decodeFromVideoDevice', source, result);
+        console.debug("decodeFromVideoDevice", source, result);
         setScanResult(result);
         if (stopOnCapture === true) {
           captureStop();
@@ -65,7 +70,7 @@ export default function ScannerComponent(props) {
         callback(result, err);
       }
       if (err && !(err instanceof NotFoundException)) {
-        console.log('error', err);
+        console.log("error", err);
       }
     });
   };
@@ -85,7 +90,7 @@ export default function ScannerComponent(props) {
             onClick={() => captureStart(props.onResult)}
           >
             Scan Barcode
-          </Button>{' '}
+          </Button>{" "}
           <Button color="primary" variant="contained" onClick={captureStop}>
             Stop Scanner
           </Button>
@@ -98,12 +103,21 @@ export default function ScannerComponent(props) {
             id="video"
             width="100%"
             height="100%"
-            style={{ border: '1px solid gray' }}
+            style={{ border: "1px solid gray" }}
           ></video>
           <div class="overlay-element"></div>
           <div class="laser"></div>
         </div>
       </div>
+      <Select onChange={event => setSource(event.target.value)}>
+        {devices.map((device, index) => {
+          return (
+            <MenuItem key={index} value={device.deviceId}>
+              {device.label}
+            </MenuItem>
+          );
+        })}
+      </Select>
 
       {/* <Select value={source} onChange={event => setSource(event.target.value)}>
         {devices.map((device, index) => {

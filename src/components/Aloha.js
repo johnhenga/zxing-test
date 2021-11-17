@@ -1,17 +1,16 @@
 import React from 'react';
 
+// import { Button, Select, MenuItem } from "@material-ui/core";
 import { Button } from '@material-ui/core';
+import './Barcode.css';
 
 import {
   BrowserMultiFormatReader,
   BarcodeFormat,
   DecodeHintType,
   NotFoundException,
+  BrowserBarcodeReader, 
 } from '@zxing/library';
-
-import {
-  BrowserMultiFormatOneDReader
-} from '@zxing/browser'
 
 export default function ScannerComponent(props) {
   // const [loading, setLoading] = React.useState(props.loading || false);
@@ -24,14 +23,22 @@ export default function ScannerComponent(props) {
   const [devices, setDevices] = React.useState([]);
   const [scanResult, setScanResult] = React.useState('');
   const [codeReader, setCodeReader] = React.useState(
-    // new BrowserMultiFormatReader()
-    new BrowserMultiFormatOneDReader()
+    new BrowserMultiFormatReader()
+  );
+  const [hints, setHints] = React.useState(new Map());
+
+  const hints1 = new Map();
+  const formats1 = [BarcodeFormat.QR_CODE, BarcodeFormat.DATA_MATRIX/*, ...*/];
+  
+  hints1.set(DecodeHintType.POSSIBLE_FORMATS, formats1);
+
+  const [codeReaderBarcode, setCodeReaderBarcode] = React.useState(
+    new BrowserBarcodeReader()
   );
 
   const [formats, setFormats] = React.useState([
     BarcodeFormat.EAN_13,
   ]);
-  const [hints, setHints] = React.useState(new Map());
 
   React.useEffect(() => {
     hints.set(DecodeHintType.POSSIBLE_FORMATS, formats);
@@ -58,6 +65,7 @@ export default function ScannerComponent(props) {
   const captureStart = (callback = () => {}, stopOnCapture = true) => {
     setIsRunning(true);
     codeReader.decodeFromVideoDevice(source, 'video', (result, err) => {
+    // codeReaderBarcode.decodeFromVideoDevice(source, 'video', (result, err) => {
       setLoading(false);
       if (result) {
         console.debug('decodeFromVideoDevice', source, result);
@@ -75,7 +83,8 @@ export default function ScannerComponent(props) {
 
   const captureStop = () => {
     setIsRunning(false);
-    codeReader.reset();
+    // codeReader.reset();
+    codeReaderBarcode.reset();
   };
 
   return (

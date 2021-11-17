@@ -1,5 +1,6 @@
 import "./App.css";
 import ScannerComponent from "./components/ScannerComponent";
+// import ScannerComponent from "./components/Aloha";
 
 const getBarcode = (barcode, err) => {
   console.log('handleBarcode', barcode, err);
@@ -14,7 +15,6 @@ const getBarcode = (barcode, err) => {
 function App() {
   return (
     <div className="App">
-      {/* <Aloha started={false}  showButtons={true} /> */}
       <ScannerComponent
         started={true}
         onResult={getBarcode}
