@@ -6,8 +6,8 @@ import './Barcode.css';
 
 import {
   BrowserMultiFormatReader,
-  BarcodeFormat,
-  DecodeHintType,
+  // BarcodeFormat,
+  // DecodeHintType,
   NotFoundException,
 } from '@zxing/library';
 
@@ -16,7 +16,7 @@ export default function ScannerComponent(props) {
   const [showButtons, setShowButtons] = React.useState(
     props.showButtons === true ? true : false
   );
-  const [isRunning, setIsRunning] = React.useState(false);
+  const [, setIsRunning] = React.useState(false);
   const [isLoading, setLoading] = React.useState(true);
   const [source] = React.useState(null);
   // const [devices, setDevices] = React.useState([]);
@@ -25,32 +25,32 @@ export default function ScannerComponent(props) {
     new BrowserMultiFormatReader()
   );
 
-  const [formats] = React.useState([
-    BarcodeFormat.EAN_13,
-  ]);
-  const [hints] = React.useState(new Map());
+  // const [formats] = React.useState([
+  //   BarcodeFormat.EAN_13,
+  // ]);
+  // const [hints] = React.useState(new Map());
 
-  React.useEffect(() => {
-    hints.set(DecodeHintType.POSSIBLE_FORMATS, formats);
-  }, []);
+  // React.useEffect(() => {
+  //   // hints.set(DecodeHintType.POSSIBLE_FORMATS, formats);
+  // }, []);
 
   React.useEffect(() => {
     // setLoading(props.loading);
     setShowButtons(props.showButtons);
   }, [props.loading, props.showButtons]);
 
-  React.useEffect(() => {
-    if (props.started === true) {
-      if (isRunning === false) {
-        captureStart(props.onResult);
-      }
-    } else if (props.started === false) {
-      if (isRunning === true) {
-        captureStop();
-      }
-    } else {
-    }
-  }, [props.started]);
+  // React.useEffect(() => {
+  //   if (props.started === true) {
+  //     if (isRunning === false) {
+  //       captureStart(props.onResult);
+  //     }
+  //   } else if (props.started === false) {
+  //     if (isRunning === true) {
+  //       captureStop();
+  //     }
+  //   } else {
+  //   }
+  // }, [props.started]);
 
   const captureStart = (callback = () => {}, stopOnCapture = true) => {
     setIsRunning(true);
