@@ -6,8 +6,8 @@ import "./Barcode.css";
 
 import {
   BrowserMultiFormatReader,
-  BarcodeFormat,
-  DecodeHintType,
+  // BarcodeFormat,
+  // DecodeHintType,
   NotFoundException,
 } from "@zxing/library";
 
@@ -25,13 +25,13 @@ export default function ScannerComponent(props) {
   const [, setScanResult] = React.useState("");
   const [codeReader] = React.useState(new BrowserMultiFormatReader());
 
-  const [formats] = React.useState([
-    BarcodeFormat.EAN_13,
-  ]);
-  const [hints] = React.useState(new Map());
+  // const [formats] = React.useState([
+  //   BarcodeFormat.EAN_13,
+  // ]);
+  // const [hints] = React.useState(new Map());
 
   React.useEffect(() => {
-    hints.set(DecodeHintType.POSSIBLE_FORMATS, formats);
+    // hints.set(DecodeHintType.POSSIBLE_FORMATS, formats);
   }, []);
 
   React.useEffect(() => {
